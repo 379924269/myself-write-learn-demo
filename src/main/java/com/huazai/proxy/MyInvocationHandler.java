@@ -24,6 +24,8 @@ public class MyInvocationHandler implements InvocationHandler {
         final Object object = method.invoke(target, args);
         // 方法结束可以添加代理处理
         PerformanceMonitor.end();
+
+        PerformanceMonitor.remove();
         return object;
     }
 
@@ -40,6 +42,9 @@ public class MyInvocationHandler implements InvocationHandler {
 }
 
 interface IUserService {
+    /**
+     * 添加
+     */
     void add();
 }
 
@@ -65,6 +70,11 @@ class PerformanceMonitor {
         MethodPerformance mp = performanceThreadLocal.get();
         mp.printPerformance();
     }
+
+    public static void remove() {
+        performanceThreadLocal.remove();
+    }
+
 }
 
 class MethodPerformance {
